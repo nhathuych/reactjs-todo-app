@@ -7,10 +7,11 @@ const ButtonStyled = styled(Button)`
   text-align: left !important;
 `;
 
-export default function TodoItem() {
+{/* receive a props from the parents */}
+export default function TodoItem({todo}) {
   return (
     <div>
-      <ButtonStyled shouldFitContainer>This is my task</ButtonStyled>
+      <ButtonStyled shouldFitContainer>{todo.body}</ButtonStyled>
     </div>
   );
 }
