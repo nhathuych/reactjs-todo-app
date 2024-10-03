@@ -12,14 +12,25 @@ function App() {
     setTextInput(e.target.value);
   }, []);
 
-  const onSubmitInput = useCallback((e) => {
-    setTodoList([
-      { id: v4(), body: textInput, isCompleted: false },
-      ...todoList,
-    ]);
+  const onSubmitInput = useCallback(
+    (e) => {
+      setTodoList([
+        { id: v4(), body: textInput, isCompleted: false },
+        ...todoList,
+      ]);
 
-    setTextInput("");
-  }, [textInput, todoList]);
+      setTextInput("");
+    },
+    [textInput, todoList]
+  );
+
+  const onCheckIconClick = useCallback((id) => {
+    setTodoList((prevState) =>
+      prevState.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: true } : todo
+      )
+    );
+  }, []);
 
   return (
     <div>
@@ -44,7 +55,7 @@ function App() {
       ></Textfield>
 
       {/* send data to child component using props */}
-      <TodoList todoList={todoList} />
+      <TodoList todoList={todoList} onCheckIconClick={onCheckIconClick} />
     </div>
   );
 }
