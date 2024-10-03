@@ -1,12 +1,28 @@
 import TodoList from "./components/TodoList";
 import Textfield from "@atlaskit/textfield";
 import Button from "@atlaskit/button";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { v4 } from "uuid";
+
+const TODO_APP_LOCAL_STORAGE_KEY = "TODO_APP_LOCAL_STORAGE_KEY_1";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [textInput, setTextInput] = useState("");
+
+  // get the list from local storage
+  useEffect(() => {
+    const storedTodoList = localStorage.getItem(TODO_APP_LOCAL_STORAGE_KEY);
+
+    if (storedTodoList) {
+      setTodoList(JSON.parse(storedTodoList));
+    }
+  }, []);
+
+  // store the list in local storage
+  useEffect(() => {
+    localStorage.setItem(TODO_APP_LOCAL_STORAGE_KEY, JSON.stringify(todoList));
+  }, [todoList]);
 
   const onTextInputChange = useCallback((e) => {
     setTextInput(e.target.value);
